@@ -10,9 +10,17 @@
 
 namespace SteamCondenser\Servers\Sockets;
 
-class SourceSocketTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+use SteamCondenser\ByteBuffer;
 
-    public function setUp() {
+class SourceSocketTest extends TestCase {
+
+    /** @var SourceSocket $socket */
+    private $socket;
+    /** @var ByteBuffer $buffer  */
+    private $buffer;
+
+    public function setUp() : void {
         $this->socketBuilder = $this->getMockBuilder('\SteamCondenser\Servers\Sockets\SourceSocket');
         $this->socketBuilder->disableOriginalConstructor();
         $this->socketBuilder->setMethods(['receivePacket']);

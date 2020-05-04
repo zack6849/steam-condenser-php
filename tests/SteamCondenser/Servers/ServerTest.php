@@ -10,6 +10,8 @@
 
 namespace SteamCondenser\Servers;
 
+use PHPUnit\Framework\TestCase;
+
 class TestableServer extends Server {
 
     public $ipAddress;
@@ -20,7 +22,7 @@ class TestableServer extends Server {
 
 }
 
-class ServerTest extends \PHPUnit_Framework_TestCase {
+class ServerTest extends TestCase {
 
     public function testRotateIp() {
         $server = $this->getMockBuilder('\SteamCondenser\Servers\TestableServer')->disableOriginalConstructor()->setMethods(['initSocket'])->getMock();

@@ -10,6 +10,7 @@
 
 namespace SteamCondenser\Servers;
 
+use PHPUnit\Framework\TestCase;
 use SteamCondenser\Exceptions\RCONNoAuthException;
 
 class TestableGoldSrcServer extends GoldSrcServer {
@@ -22,7 +23,7 @@ class TestableGoldSrcServer extends GoldSrcServer {
 
 }
 
-class GoldSrcServerTest extends \PHPUnit_Framework_TestCase {
+class GoldSrcServerTest extends TestCase {
 
     public function testRconAuthFailed() {
         $socket = $this->getMockBuilder('\SteamCondenser\UDPSocket')->setMethods(['rconExec'])->disableOriginalConstructor()->getMock();

@@ -10,6 +10,9 @@
 
 namespace SteamCondenser\Servers\Sockets;
 
+use PHPUnit\Framework\TestCase;
+use SteamCondenser\UDPSocket;
+
 class GenericSteamSocket extends SteamSocket {
 
     public $buffer;
@@ -28,10 +31,13 @@ class GenericSteamSocket extends SteamSocket {
  * @package    steam-condenser
  * @subpackage tests
  */
-class SteamSocketTest extends \PHPUnit_Framework_TestCase {
+class SteamSocketTest extends TestCase {
 
-    public function setUp() {
-        $this->udpSocket = $this->getMock('\SteamCondenser\UDPSocket');
+    private $udpSocket;
+    private $socket;
+
+    public function setUp() : void {
+        $this->udpSocket = $this->createMock(UDPSocket::class);
 
         $this->socket = new GenericSteamSocket('127.0.0.1');
         $this->socket->socket = $this->udpSocket;
@@ -72,7 +78,6 @@ class SteamSocketTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testSendPacket() {
-        \PHPUnit_Framework_Error_Notice::$enabled = FALSE;
 
         $packet = $this->getMockBuilder('\SteamCondenser\Servers\Packets\SteamPacket')
                         ->disableOriginalConstructor()->getMock();
@@ -93,7 +98,7 @@ class SteamSocketTest extends \PHPUnit_Framework_TestCase {
 
     public function testTimeout() {
         $this->udpSocket->expects($this->once())->method('select')->will($this->returnValue(false));
-        $this->setExpectedException('\SteamCondenser\Exceptions\TimeoutException');
+        $this->expectException('\SteamCondenser\Exceptions\TimeoutException');
 
         $this->socket->receivePacket();
     }

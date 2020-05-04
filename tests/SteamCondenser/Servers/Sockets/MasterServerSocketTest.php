@@ -10,9 +10,14 @@
 
 namespace SteamCondenser\Servers\Sockets;
 
-class MasterServerSocketTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
 
-    public function setUp() {
+class MasterServerSocketTest extends TestCase {
+
+    private $socket;
+    private $buffer;
+
+    public function setUp() : void {
         $this->socketBuilder = $this->getMockBuilder('\SteamCondenser\Servers\Sockets\MasterServerSocket');
         $this->socketBuilder->disableOriginalConstructor();
         $this->socketBuilder->setMethods(['receivePacket']);
@@ -31,7 +36,8 @@ class MasterServerSocketTest extends \PHPUnit_Framework_TestCase {
 
         $this->buffer->expects($this->once())->method('getLong')->will($this->returnValue(1));
 
-        $this->setExpectedException('\SteamCondenser\Exceptions\PacketFormatException', 'Master query response has wrong packet header.');
+        $this->expectException('\SteamCondenser\Exceptions\PacketFormatException');
+        $this->expectExceptionMessage('Master query response has wrong packet header.');
 
         $this->socket->getReply();
     }
